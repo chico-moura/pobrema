@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from dataclasses import dataclass
-from encryption.errors import FileIsNotPython, FileHasExtension, FileNotFound, TargetFileAlreadyExists
+from src.encryption.errors import FileIsNotPython, FileHasExtension, FileNotFound, TargetFileAlreadyExists
 
 
 @dataclass

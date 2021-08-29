@@ -1,7 +1,7 @@
 import pathlib
 from unittest import TestCase
-from encryption.scrambler import Scrambler
-from encryption.errors import FileHasExtension, FileIsNotPython, FileNotFound, TargetFileAlreadyExists
+from src.encryption.scrambler import Scrambler
+from src.encryption import FileHasExtension, FileIsNotPython, FileNotFound, TargetFileAlreadyExists
 from tests.encryption.factories.file_factory import FileFactory
 
 
