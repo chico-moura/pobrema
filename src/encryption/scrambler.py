@@ -1,45 +1,31 @@
 import os
 from pathlib import Path
-from dataclasses import dataclass
 from src.encryption.errors import FileIsNotPython, FileHasExtension, FileNotFound, TargetFileAlreadyExists
-
-
-@dataclass
-class CharPermutationSet:
-    original: [str]
-    target: [str]
+from src.encryption.char_permutation_set import CharPermutationSet
 
 
 class Scrambler:
     __file: str
-    __original_char_set: [str]
-    __scrambled_char_set: [str]
     __permutation_set: CharPermutationSet
-    __original_chars: str = 'abcdefghijklmnopqrstuvxwyzABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789,.<>:;\\/\'?|"' \
-                            '~^]}[-_=+àáâãèéêêíìĩîóòõôúùũûÁÀÃÂÉÈẼÊÍÌĨÎÓÒÕÔÚÙŨÛ!@#$%*() ¹²³£¢¬{[]§ªº°\n'
-    __scrambled_chars: str = '7@A_Û(Înũdi[Ì{Â2vjâ\nìàúPÒ^LN.IG=T²3qhoe6< $Yafò*áêm\\À+]Ùí;1pZÈHº£zXW9Ũ?,' \
-                             '!¢-ùèEw4~uÁêéî¹Ó}§]#¬VÔsã5³ôlbÊÍDÉFKS\'ĩx:%rªõ°Ã/8Õ[>RkOMUẼ|)ĨcyBÚûJtgó"0CQ'
 
     def __init__(self, file) -> None:
         self.__file = file
-        self.__original_char_set = list(self.__original_chars)
-        self.__scrambled_char_set = list(self.__scrambled_chars)
-        if not Path(self.__file).is_file():
-            raise FileNotFound(self.__file)
+        if not Path(file).is_file():
+            raise FileNotFound(file)
 
     def encrypt(self) -> None:
         new_name = self.__get_encrypted_file_name()
         if self.__file_is_python() and not self.__target_file_already_exists(new_name):
             self.__set_to_encrypt()
-            self.__replace_file(new_name)
+            self.__translate(new_name)
 
     def decrypt(self) -> None:
         new_name = self.__get_decrypted_file_name()
         if self.__file_has_no_extension() and not self.__target_file_already_exists(new_name):
             self.__set_to_decrypt()
-            self.__replace_file(new_name)
+            self.__translate(new_name)
 
-    def __replace_file(self, new_file: str) -> None:
+    def __translate(self, new_file: str) -> None:
         text = self.__permute_chars()
         new_file = open(new_file, 'w')
         new_file.write(text)
@@ -59,7 +45,7 @@ class Scrambler:
 
     def __get_char_replacement(self, char: str) -> str:
         index = self.__permutation_set.original.index(char)
-        return self.__permutation_set.target[index]
+        return self.__permutation_set.final[index]
 
     def __get_scrambled_text(self, text: str) -> str:
         scrambled_list = [self.__get_char_replacement(char) for char in text]
@@ -73,16 +59,10 @@ class Scrambler:
             raise FileNotFound(self.__file)
 
     def __set_to_encrypt(self) -> None:
-        self.__permutation_set = CharPermutationSet(
-            original=self.__original_char_set,
-            target=self.__scrambled_char_set
-        )
+        self.__permutation_set = CharPermutationSet.to_encrypt()
 
     def __set_to_decrypt(self) -> None:
-        self.__permutation_set = CharPermutationSet(
-            original=self.__scrambled_char_set,
-            target=self.__original_char_set
-        )
+        self.__permutation_set = CharPermutationSet.to_decrypt()
 
     def __get_encrypted_file_name(self) -> str:
         return self.__file.split('.')[0]
