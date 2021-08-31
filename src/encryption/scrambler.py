@@ -1,12 +1,12 @@
 import os
 from pathlib import Path
 from src.encryption.errors import FileIsNotPython, FileHasExtension, FileNotFound, TargetFileAlreadyExists
-from src.encryption.char_permutation_set import CharPermutationSet
+from src.encryption.char_swapper import CharSwapper
 
 
 class Scrambler:
     __file: str
-    __permutation_set: CharPermutationSet
+    __char_swapper: CharSwapper
 
     def __init__(self, file) -> None:
         self.__file = file
@@ -17,52 +17,36 @@ class Scrambler:
         new_name = self.__get_encrypted_file_name()
         if self.__file_is_python() and not self.__target_file_already_exists(new_name):
             self.__set_to_encrypt()
-            self.__translate(new_name)
+            self.__translate()
+            self.__rename(new_name)
 
     def decrypt(self) -> None:
         new_name = self.__get_decrypted_file_name()
         if self.__file_has_no_extension() and not self.__target_file_already_exists(new_name):
             self.__set_to_decrypt()
-            self.__translate(new_name)
-
-    def __translate(self, new_file: str) -> None:
-        text = self.__permute_chars()
-        new_file = open(new_file, 'w')
-        new_file.write(text)
-        new_file.close()
-        self.__remove_file()
-
-    def __permute_chars(self) -> str:
-        original_text = self.__get_file_text()
-        new_text = self.__get_scrambled_text(original_text)
-        return new_text
-
-    def __get_file_text(self) -> str:
-        created_file = open(self.__file, 'r')
-        text = created_file.read()
-        created_file.close()
-        return text
-
-    def __get_char_replacement(self, char: str) -> str:
-        index = self.__permutation_set.original.index(char)
-        return self.__permutation_set.final[index]
-
-    def __get_scrambled_text(self, text: str) -> str:
-        scrambled_list = [self.__get_char_replacement(char) for char in text]
-        scrambled_text = ''.join(scrambled_list)
-        return scrambled_text
-
-    def __remove_file(self) -> None:
-        if os.path.isfile(self.__file):
-            os.remove(self.__file)
-        else:
-            raise FileNotFound(self.__file)
+            self.__translate()
+            self.__rename(new_name)
 
     def __set_to_encrypt(self) -> None:
-        self.__permutation_set = CharPermutationSet.to_encrypt()
+        self.__char_swapper = CharSwapper.to_encrypt()
 
     def __set_to_decrypt(self) -> None:
-        self.__permutation_set = CharPermutationSet.to_decrypt()
+        self.__char_swapper = CharSwapper.to_decrypt()
+
+    def __translate(self) -> None:
+        with open(self.__file, 'r') as file:
+            original_content = file.read()
+
+        new_content = self.__translate_content(original_content)
+
+        with open(self.__file, 'w') as file:
+            file.write(new_content)
+
+    def __translate_content(self, content: str) -> str:
+        return ''.join([self.__char_swapper.swap(char) for char in content])
+
+    def __rename(self, new_name: str) -> None:
+        os.rename(self.__file, new_name)
 
     def __get_encrypted_file_name(self) -> str:
         return self.__file.split('.')[0]
