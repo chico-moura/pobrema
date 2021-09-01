@@ -8,7 +8,7 @@ class Scrambler:
     __file: str
     __char_swapper: CharSwapper
 
-    def __init__(self, file) -> None:
+    def __init__(self, file: str) -> None:
         self.__file = file
         if not Path(file).is_file():
             raise FileNotFound(file)
@@ -17,15 +17,23 @@ class Scrambler:
         new_name = self.__get_encrypted_file_name()
         if self.__file_is_python() and not self.__target_file_already_exists(new_name):
             self.__set_to_encrypt()
-            self.__translate()
-            self.__rename(new_name)
+            self.__transform_file(new_name)
 
     def decrypt(self) -> None:
         new_name = self.__get_decrypted_file_name()
         if self.__file_has_no_extension() and not self.__target_file_already_exists(new_name):
             self.__set_to_decrypt()
-            self.__translate()
-            self.__rename(new_name)
+            self.__transform_file(new_name)
+
+    @property
+    def is_python(self) -> bool:
+        extension = self.__file.split('.')[-1]
+        return extension == 'py'
+
+    def __transform_file(self, new_name: str) -> None:
+        self.__translate()
+        self.__rename(new_name)
+        self.__file = new_name
 
     def __set_to_encrypt(self) -> None:
         self.__char_swapper = CharSwapper.to_encrypt()
@@ -55,11 +63,10 @@ class Scrambler:
         return f'{self.__file}.py'
 
     def __file_is_python(self) -> bool:
-        extension = self.__file.split('.')[-1]
-        file_is_python = extension == 'py'
-        if not file_is_python:
+        is_python = self.is_python
+        if not is_python:
             raise FileIsNotPython(self.__file)
-        return file_is_python
+        return is_python
 
     def __file_has_no_extension(self) -> bool:
         file_has_no_extension = '.' not in self.__file
