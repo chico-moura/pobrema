@@ -15,20 +15,19 @@ class Scrambler:
 
     def encrypt(self) -> None:
         new_name = self.__get_encrypted_file_name()
-        if self.__file_is_python() and not self.__target_file_already_exists(new_name):
+        if not self.is_encrypted and not self.__target_file_already_exists(new_name):
             self.__set_to_encrypt()
             self.__transform_file(new_name)
 
     def decrypt(self) -> None:
         new_name = self.__get_decrypted_file_name()
-        if self.__file_has_no_extension() and not self.__target_file_already_exists(new_name):
+        if self.is_encrypted and not self.__target_file_already_exists(new_name):
             self.__set_to_decrypt()
             self.__transform_file(new_name)
 
     @property
-    def is_python(self) -> bool:
-        extension = self.__file.split('.')[-1]
-        return extension == 'py'
+    def is_encrypted(self) -> bool:
+        return '.' not in self.__file
 
     def __transform_file(self, new_name: str) -> None:
         self.__translate()
@@ -63,13 +62,14 @@ class Scrambler:
         return f'{self.__file}.py'
 
     def __file_is_python(self) -> bool:
-        is_python = self.is_python
+        extension = self.__file.split('.')[-1]
+        is_python = extension == '.py'
         if not is_python:
             raise FileIsNotPython(self.__file)
         return is_python
 
     def __file_has_no_extension(self) -> bool:
-        file_has_no_extension = '.' not in self.__file
+        file_has_no_extension = self.is_encrypted
         if not file_has_no_extension:
             raise FileHasExtension(self.__file)
         return file_has_no_extension

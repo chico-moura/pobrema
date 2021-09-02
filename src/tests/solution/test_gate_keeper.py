@@ -16,7 +16,7 @@ class Example(GateKeeper):
 class TestGateKeeper(TestCase):
     def setUp(self) -> None:
         key_mock = mock(Scrambler)
-        key_mock.is_python = False
+        key_mock.is_encrypted = False
         when(key_mock).encrypt()
         when(key_mock).decrypt()
         when(GateKeeper)._get_key().thenReturn(key_mock)

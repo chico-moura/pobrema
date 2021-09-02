@@ -27,9 +27,7 @@ class GateKeeper:
         pass
 
     def _get_key(self) -> Scrambler:
-        this_file: str = traceback.extract_stack()[1][0]
-        path = '/'.join(this_file.split('/')[:-1])
-        key_file = f'{path}/{self.__key_file_name}'
+        key_file = self._get_key_file_name()
         return Scrambler(key_file)
 
     def _get_key_file_name(self) -> str:
@@ -59,7 +57,7 @@ class GateKeeper:
             pass
 
     def _retrieve_imports(self) -> None:
-        if not self.__key.is_python:
+        if self.__key.is_encrypted:
             self.__key.decrypt()
             self._import_from_key()
             self.__key.encrypt()
