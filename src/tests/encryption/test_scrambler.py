@@ -20,10 +20,8 @@ class TestScrambler(TestCase):
 
     @staticmethod
     def read_file(file: str) -> str:
-        opened_file = open(file, 'r')
-        expected_content = opened_file.read()
-        opened_file.close()
-        return expected_content
+        with open(file, 'r') as f:
+            return f.read()
 
     def test_init_WHEN_file_doesnt_exists_THEN_raises_file_not_found_error(self) -> None:
         self.assertRaises(FileNotFound, lambda: Scrambler(self.python_file))
