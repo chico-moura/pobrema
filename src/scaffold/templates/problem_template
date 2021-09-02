@@ -1,0 +1,16 @@
+"""
+
+
+
+"""
+
+from %lock_path% import %lock_name%
+
+
+def foo():
+    # Escreva aqui
+    pass
+
+
+# Não altere a linha abaixo
+%lock_name%(foo).solve()

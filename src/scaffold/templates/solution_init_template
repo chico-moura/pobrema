@@ -1,0 +1,1 @@
+from %lock_path_full% import %lock_name%

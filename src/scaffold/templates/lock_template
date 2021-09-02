@@ -1,0 +1,25 @@
+from typing import Callable
+
+from src.problem import Problem, GateKeeper
+from src.encryption import FileNotFound
+
+
+class %lock_name%(GateKeeper):
+    __solver: Callable
+
+    def __init__(self, %problem_name%: Callable) -> None:
+        super().__init__()
+        self.add_problems(
+            Problem(
+                name='%problem_name%',
+                user_callback=%problem_name%,
+                solver_callback=self.__solver
+            )
+        )
+
+    def _import_from_key(self) -> None:
+        try:
+            from .key import solver
+            self.__solver = solver
+        except FileNotFound:
+            pass
