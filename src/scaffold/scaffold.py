@@ -161,9 +161,7 @@ class Scaffold:
 
 if __name__ == '__main__':
     try:
-        group_ = sys.argv[1]
-        problem_ = sys.argv[2]
-        scaffold = Scaffold(group_, problem_)
+        scaffold = Scaffold(sys.argv[1], sys.argv[2])
         scaffold.create()
 
     except IndexError:
