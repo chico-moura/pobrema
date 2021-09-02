@@ -14,16 +14,16 @@ from src.solutions.loops_e_vetores import ParImpar
 
 
 def selecionar_pares(numeros: [int]) -> [int]:
-    #return [num for num in numeros if num % 2 == 0]
+    # Escreva aqui
     pass
 
 
 def selecionar_impares(numeros: [int]) -> [int]:
-    #return [num for num in numeros if num % 2 == 2]
+    # Escreva aqui
     pass
 
 # Pode declarar funções auxiliares abaixo, mas não mude o nome das funções acima
 
 
-# Não mexa pessa parte :)
+# Não altere a linha abaixo
 ParImpar(selecionar_pares, selecionar_impares).solve()
