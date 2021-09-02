@@ -30,7 +30,7 @@ class GateKeeper:
         this_file: str = traceback.extract_stack()[1][0]
         path = '/'.join(this_file.split('/')[:-1])
         key_file = f'{path}/{self.__key_file_name}'
-        return Scrambler(key_file)  
+        return Scrambler(key_file)
 
     def _get_key_file_name(self) -> str:
         path = self._get_key_path()

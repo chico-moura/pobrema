@@ -24,24 +24,25 @@ class Problem(ABC):
 
     def solve(self) -> None:
         for _ in range(self.__tries):
-            self.__solve_scenario()
+            self._solve_scenario()
 
     @property
     def complete(self) -> bool:
         return self.__score.complete
 
-    def __solve_scenario(self) -> bool:
+    def _solve_scenario(self) -> bool:
         self.__input = self.create_input()
         self.__expected = self.__callback_pair.solver(self.__input)
         self.__actual = self.__callback_pair.user(self.__input)
         result = self.__expected == self.__actual
-        if not result:
-            self.alert_failure()
-        else:
+
+        if result:
             self.__score.increment()
+        else:
+            self.print_error()
         return result
 
-    def alert_failure(self) -> None:
+    def print_error(self) -> None:
         self.print(f'{self.__name}\n  entrada: {self.__input}\nresultado: {self.__actual}\n esperado: {self.__expected}\n')
 
     def print_score(self) -> None:

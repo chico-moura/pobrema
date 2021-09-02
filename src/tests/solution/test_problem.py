@@ -15,7 +15,7 @@ class Example(Problem):
 
 class TestProblem(TestCase):
     def setUp(self) -> None:
-        when(Example).alert_failure()
+        when(Example).print_error()
 
     def tearDown(self) -> None:
         unstub()
