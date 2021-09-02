@@ -15,13 +15,13 @@ class Scrambler:
 
     def encrypt(self) -> None:
         new_name = self.__get_encrypted_file_name()
-        if not self.is_encrypted and not self.__target_file_already_exists(new_name):
+        if self.__file_is_python() and not self.__target_file_already_exists(new_name):
             self.__set_to_encrypt()
             self.__transform_file(new_name)
 
     def decrypt(self) -> None:
         new_name = self.__get_decrypted_file_name()
-        if self.is_encrypted and not self.__target_file_already_exists(new_name):
+        if self.__file_has_no_extension() and not self.__target_file_already_exists(new_name):
             self.__set_to_decrypt()
             self.__transform_file(new_name)
 
@@ -63,7 +63,7 @@ class Scrambler:
 
     def __file_is_python(self) -> bool:
         extension = self.__file.split('.')[-1]
-        is_python = extension == '.py'
+        is_python = extension == 'py'
         if not is_python:
             raise FileIsNotPython(self.__file)
         return is_python
