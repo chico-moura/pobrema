@@ -98,7 +98,7 @@ class Scaffold:
             self._initialize_dirs()
             self._initialize_files()
 
-        except FileExistsError as e:
+        except FileExistsError or AttributeError as e:
             print(e)
 
     def _validate_arguments(self) -> None:
@@ -160,5 +160,11 @@ class Scaffold:
 
 
 if __name__ == '__main__':
-    scaffold = Scaffold(sys.argv[1], sys.argv[2])
-    scaffold.create()
+    try:
+        group_ = sys.argv[1]
+        problem_ = sys.argv[2]
+        scaffold = Scaffold(group_, problem_)
+        scaffold.create()
+
+    except IndexError:
+        print('Invalid arguments, try:\n  python -m scaffold <group_name> <problem_name>')
