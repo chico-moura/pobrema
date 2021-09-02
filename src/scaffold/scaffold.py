@@ -77,7 +77,7 @@ class Tags:
 
     @staticmethod
     def _to_pascal(name: str) -> str:
-        return ''.join(x for x in name.title() if not x.isspace())
+        return ''.join(char for char in name.title() if not char.isspace())
 
 
 class Scaffold:
