@@ -10,7 +10,7 @@ Cada uma deve retornar um vetor de inteiros.
 Tente não se repetir.
 
 """
-from src.solutions.loops_e_vetores import ParImpar
+from exercicios.loops_e_vetores.par_impar.key import ParImpar
 
 
 def selecionar_pares(numeros: [int]) -> [int]:
