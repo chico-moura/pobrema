@@ -43,7 +43,8 @@ class Problem(ABC):
         return result
 
     def print_error(self) -> None:
-        self.print(f'{self.__name}\n  entrada: {self.__input}\nresultado: {self.__actual}\n esperado: {self.__expected}\n')
+        self.print(f''
+                   f'{self.__name}\n  entrada: {self.__input}\nresultado: {self.__actual}\n esperado: {self.__expected}\n')
 
     def print_score(self) -> None:
         self.print(f'{self.__name}: {self.__score}')

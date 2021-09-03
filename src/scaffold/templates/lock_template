@@ -11,6 +11,7 @@ class %lock_name%Problem(Problem):
     def create_input(self):
         pass
 
+
 class %lock_name%(GateKeeper):
     __solver: Callable
 
