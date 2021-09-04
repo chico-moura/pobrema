@@ -1,10 +1,9 @@
 import os
 import sys
-from pathlib import Path
 
 from src.enums.file_system_enum import FileSystemEnum
 from src.scaffold.tag_set import Tags
-from src.scaffold.path_repository import PathRepo
+from src.scaffold.path_repository.path_repository import PathRepo, BasicPath
 
 
 class Scaffold:
@@ -29,13 +28,14 @@ class Scaffold:
             print(e)
 
     def _validate_arguments(self) -> None:
-        problem = self.__path.problem_file
-        if Path(problem).exists():
-            raise FileExistsError(f'Files or directories already exists:\n{problem}')
+        existing_files = [file for file in self.__path.unique_paths if file.exists]
+        if existing_files:
+            existing_files_to_string = '\n'.join([path.to_string() for path in existing_files])
+            raise FileExistsError(f'Files or directories already exists:\n{existing_files_to_string}')
 
     def _initialize_dirs(self) -> None:
-        self._create_dirs(self.__path.problem_group_dir)
-        self._create_package(self.__path.problem_file, self.__path.problem_init_file)
+        self._create_dir(self.__path.dir.problem_group)
+        self._create_package(self.__path.file.problem, self.__path.file.init_problem)
         self._create_file(self.__path.key_file)
 
     def _initialize_files(self) -> None:
@@ -53,36 +53,35 @@ class Scaffold:
         )
 
     @staticmethod
-    def _create_dirs(*paths: str) -> None:
-        [os.mkdir(path) for path in paths if not Path(path).exists()]
+    def _create_dir(path: BasicPath) -> None:
+        if not path.exists:
+            os.mkdir(path.to_string)
+        else:
+            raise FileExistsError(path.to_string)
 
-    def _create_package(self, path: str, init_content: str = '') -> None:
+    def _create_package(self, path: BasicPath, init_template: BasicPath = None) -> None:
         try:
-            self._create_dirs(path)
-            init = f'{path}/{FileSystemEnum.INIT_FILE}'
-            self._create_file(init, init_content)
+            self._create_dir(path)
+            init_path = path.with_complement(FileSystemEnum.INIT_FILE)
+            self._create_file(init_path, init_template)
 
         except FileExistsError as e:
             print(e)
 
-    def _create_file(self, path: str, template: str = '') -> None:
-        if Path(path).exists():
+    def _create_file(self, path: BasicPath, template: BasicPath = None) -> None:
+        if path.exists:
             raise FileExistsError(f'{path} already exists')
 
         content = ''
         if template:
             content = self._get_content(template)
-        self._write_to_file(path, content)
+        with open(path.to_string, 'w') as file:
+            file.write(content)
 
-    def _get_content(self, path: str) -> str:
-        with open(path, 'r') as file:
+    def _get_content(self, path: BasicPath) -> str:
+        with open(path.to_string, 'r') as file:
             content = file.read()
         return self.__tags.replace(content)
-
-    @staticmethod
-    def _write_to_file(file: str, content: str = '') -> None:
-        with open(file, 'w') as f:
-            f.write(content)
 
 
 if __name__ == '__main__':
