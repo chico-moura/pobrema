@@ -1,1 +1,0 @@
-from src.solutions.loops_e_vetores.vetor_de_intervalo.lock import VetorDeIntervalo

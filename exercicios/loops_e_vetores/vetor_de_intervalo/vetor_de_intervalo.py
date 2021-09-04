@@ -21,7 +21,7 @@ Exemplo 2:
 
 """
 
-from src.solutions.loops_e_vetores.vetor_de_intervalo import VetorDeIntervalo
+from key import VetorDeIntervalo
 
 
 def criar_vetor_a_partir_de_intervalo(inicio: int, fim: int) -> [int]:

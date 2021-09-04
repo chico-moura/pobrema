@@ -14,9 +14,7 @@ class VetorDeIntervaloProblem(Problem):
 
     @property
     def random_int(self) -> int:
-        x = randrange(self.__min, self.__max)
-
-        return x
+        return randrange(self.__min, self.__max)
 
 
 class VetorDeIntervalo(GateKeeper):

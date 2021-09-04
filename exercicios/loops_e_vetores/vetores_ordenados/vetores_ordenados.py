@@ -31,7 +31,7 @@ Exemplo:
 
 """
 
-from src.solutions.loops_e_vetores.vetores_ordenados import VetoresOrdenados
+from key import VetoresOrdenados
 
 
 def criar_vetor_crescente(tamanho: int) -> [int]:

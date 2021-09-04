@@ -1,1 +1,0 @@
-from src.solutions.loops_e_vetores.vetores_ordenados.lock import VetoresOrdenados

@@ -15,7 +15,7 @@ Exemplo:
     [0,2]
 
 """
-from exercicios.loops_e_vetores.par_impar.key import ParImpar
+from key import ParImpar
 
 
 def selecionar_pares(numeros: [int]) -> [int]:
