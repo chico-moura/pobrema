@@ -4,7 +4,7 @@
 
 """
 
-from %lock_path% import %lock_name%
+from key import %lock_name%
 
 
 def foo():

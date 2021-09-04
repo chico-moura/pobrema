@@ -3,29 +3,42 @@ from pathlib import Path
 from unittest import TestCase
 from shutil import rmtree
 
+from mockito import unstub, when
+
 from src.scaffold.scaffold import Scaffold, PathConstants
 
 
 class TestScaffold(TestCase):
     def setUp(self) -> None:
-        self.group_name = 'foo'
-        self.problem_name = 'bar'
-        self.solution_dir = f'{PathConstants.SOLUTION_GROUPS}/{self.group_name}'
-        self.problem_dir = f'{PathConstants.PROBLEM_GROUPS}/{self.group_name}'
+        self.group_name = 'group_name'
+        self.problem_name = 'problem_name'
+        self.fake_tamplate = 'fake_template'
+        self.fake_content = 'fake_content'
+        self.fake_path = 'fake_path'
         self.scaffold = Scaffold(self.group_name, self.problem_name)
 
     def tearDown(self) -> None:
-        rmtree(self.solution_dir)
-        rmtree(self.problem_dir)
+        unstub()
 
-    def test_create_WHEN_nothing_exists_THEN_creates_problem_directory(self) -> None:
-        self.scaffold.create()
+    def test_write_to_file_WHEN_no_template_given_THEN_creates_file(self) -> None:
+        self.scaffold._write_to_file(self.fake_path)
 
-        problem_dir = Path(self.problem_dir)
-        self.assertTrue(problem_dir.is_dir())
+        self.assertTrue(Path(self.fake_path).is_file())
+        os.remove(self.fake_path)
 
-    def test_create_WHEN_nothing_exists_THEN_creates_solution_directory(self) -> None:
-        self.scaffold.create()
+    def test_write_to_file_WHEN_template_given_THEN_creates_file(self) -> None:
+        self.scaffold._write_to_file(self.fake_path, self.fake_content)
 
-        solution_dir = Path(self.solution_dir)
-        self.assertTrue(solution_dir.is_dir())
+        self.assertTrue(Path(self.fake_path).is_file())
+        os.remove(self.fake_path)
+
+    def test_write_to_file_WHEN_template_given_THEN_content_is_writen(self) -> None:
+        expected_content = self.fake_content
+
+        self.scaffold._write_to_file(self.fake_path, expected_content)
+        with open(self.fake_path, 'r') as file:
+            actual_content = file.read()
+
+        self.assertEqual(expected_content, actual_content)
+
+

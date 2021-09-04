@@ -4,7 +4,7 @@ from src.problem import Problem, GateKeeper
 from src.encryption import FileNotFound
 
 
-class %lock_name%Problem(Problem):
+class %problem_name%Problem):
     __min = -99
     __max = 99
 
@@ -12,14 +12,14 @@ class %lock_name%Problem(Problem):
         pass
 
 
-class %lock_name%(GateKeeper):
+class %pascal_name%(GateKeeper):
     __solver: Callable
 
     def __init__(self, *callbacks: Callable) -> None:
         super().__init__()
         self.add_problems(
-            %lock_name%Problem(
-                name='%problem_name%',
+            %problem_name%(
+                name='%snake_name%',
                 user_callback=callbacks[0],
                 solver_callback=self.__solver
             )
