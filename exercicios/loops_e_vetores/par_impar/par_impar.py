@@ -7,7 +7,12 @@ Escreva as duas funções:
 Cada uma delas rececbe como argumento um vetor de inteiros.
 Cada uma deve retornar um vetor de inteiros.
 
-Tente não se repetir.
+Exemplo:
+    selecionar_pares([0, 1, 2, 3])
+
+    ==
+
+    [0,2]
 
 """
 from exercicios.loops_e_vetores.par_impar.key import ParImpar
@@ -21,8 +26,6 @@ def selecionar_pares(numeros: [int]) -> [int]:
 def selecionar_impares(numeros: [int]) -> [int]:
     # Escreva aqui
     pass
-
-# Pode declarar funções auxiliares abaixo, mas não mude o nome das funções acima
 
 
 # Não altere a linha abaixo
