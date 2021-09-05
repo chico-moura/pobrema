@@ -2,13 +2,14 @@ import os
 from pathlib import Path
 from unittest import TestCase
 
+from src.enums import FileSystemEnum
 from src.scaffold.path_repository.models import File
 from src.errors import PathAlreadyExistsError
 
 
 class TestFile(TestCase):
     def setUp(self) -> None:
-        self.fake_file_name = 'fake_file_name'
+        self.fake_file_name = 'fake_file_name.py'
         self.fake_content = 'fake_content'
 
     def tearDown(self) -> None:
@@ -46,6 +47,15 @@ class TestFile(TestCase):
 
         actual_content = self.get_file_content()
         self.assertEqual(expected_content, actual_content)
+
+    def test_init_WHEN_path_has_no_extension_THEN_creates_file_with_extension(self) -> None:
+        name_without_extension = 'fake_file_name'
+        name_with_extension = name_without_extension + FileSystemEnum.FILE_EXTENSION
+
+        File(path=name_with_extension)
+
+        path = Path(name_with_extension)
+        self.assertTrue(path.is_file())
 
     def test_content_WHEN_called_THEN_returns_file_content(self) -> None:
         expected_content = self.fake_content
