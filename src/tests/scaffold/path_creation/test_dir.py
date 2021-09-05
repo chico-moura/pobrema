@@ -20,7 +20,8 @@ class TestDir(TestCase):
         self.child_file_path = f'{self.fake_dir_path}/{self.child_file_name}'
 
     def tearDown(self) -> None:
-        rmtree(self.fake_dir_path)
+        if Path(self.fake_dir_path).exists():
+            rmtree(self.fake_dir_path)
 
     def test_init_WHEN_no_content_given_THEN_creates_empty_dir(self) -> None:
         Dir(path=self.fake_dir_path)
@@ -49,6 +50,18 @@ class TestDir(TestCase):
 
         self.assertEqual(expected_content, actual_content)
 
+    def test_init_WHEN_dir_exists_and_accept_existing_is_true_THEN_accepts_existing_dir(self) -> None:
+        os.mkdir(path=self.fake_dir_path)
+
+        Dir(path=self.fake_dir_path, accept_existing=True)
+
+        self.assertTrue(Path(self.fake_dir_path).is_dir())
+
+    def test_init_WHEN_accept_existing_is_true_and_dir_does_not_exist_THEN_creates_dir(self) -> None:
+        Dir(path=self.fake_dir_path, accept_existing=True)
+
+        self.assertTrue(Path(self.fake_dir_path).is_dir())
+
     def test_spawn_dir_WHEN_no_content_given_THEN_creates_sub_dir(self) -> None:
         mother_dir = Dir(self.fake_dir_path)
 
@@ -63,6 +76,16 @@ class TestDir(TestCase):
         mother_dir.spawn_dir(self.child_dir_name)
 
         self.assertTrue(self.child_dir_init_path)
+
+    def test_spawn_dir_WHEN_mother_dir_was_created_with_accept_existing_THEN_creates_child_dir(self) -> None:
+        child_dir_name = 'child'
+        expected_created_path = f'{self.fake_dir_path}/{child_dir_name}'
+        os.mkdir(path=self.fake_dir_path)
+        mother_dir = Dir(path=self.fake_dir_path, accept_existing=True)
+
+        mother_dir.spawn_dir(child_dir_name)
+
+        self.assertTrue(Path(expected_created_path).is_dir())
 
     def test_spawn_file_WHEN_called_THEN_creates_file(self) -> None:
         mother_dir = Dir(self.fake_dir_path)

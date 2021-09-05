@@ -12,6 +12,8 @@ class BasicPath(ABC):
         self.__path = path
         if not accept_existing:
             self.validate_path()
+
+        if not self.exists:
             self._create(content)
 
     def validate_path(self) -> None:
