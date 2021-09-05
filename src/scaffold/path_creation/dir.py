@@ -2,8 +2,8 @@ from __future__ import annotations
 import os
 
 from src.enums import FileSystemEnum
-from src.scaffold.path_repository.models.basic_path import BasicPath
-from src.scaffold.path_repository.models.file import File
+from src.scaffold.path_creation.basic_path import BasicPath
+from src.scaffold.path_creation.file import File
 
 
 class Dir(BasicPath):

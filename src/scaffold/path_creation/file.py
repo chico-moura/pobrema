@@ -1,4 +1,4 @@
-from src.scaffold.path_repository.models import BasicPath
+from src.scaffold.path_creation.basic_path import BasicPath
 from src.enums import FileSystemEnum
 
 

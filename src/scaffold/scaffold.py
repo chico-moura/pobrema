@@ -1,21 +1,23 @@
 import sys
+from pathlib import Path
 
 from src.scaffold.path_repository.models import Dir
-from src.enums import FileSystemEnum
-from src.scaffold.path_repository.path_repository import PathRepo
+from src.enums import FileSystemEnum, PathConstants
 from src.scaffold.template_repository.template_repository import TemplateRepo
 
 
 class Scaffold:
     __group_name: str
     __problem_name: str
-    __paths: PathRepo
+    __group_path: str
+    __problem_path: str
     __templates: TemplateRepo
 
     def __init__(self, group: str, problem: str) -> None:
         self.__group_name = group
         self.__problem_name = problem
-        self.__paths = PathRepo(group, problem)
+        self.__group_path = f'{PathConstants.PROBLEM_GROUPS}/{group}'
+        self.__problem_path = f'{self.__group_path}/{problem}'
         self.__templates = TemplateRepo(problem_name=problem)
 
     def create(self) -> None:
@@ -27,14 +29,12 @@ class Scaffold:
             print(e)
 
     def _validate_arguments(self) -> None:
-        existing_files = [file for file in self.__paths.unique_paths if file.exists]
-        if existing_files:
-            existing_files_to_string = '\n'.join([path.path() for path in existing_files])
-            raise FileExistsError(f'Files or directories already exists:\n{existing_files_to_string}')
+        if Path(self.__problem_path).exists():
+            raise FileExistsError(f'Files or directories already exists:\n{self.__problem_path}')
 
     def _create_structure(self) -> None:
         group_dir = Dir(
-            path=self.__paths.dir.problem_group.path,
+            path=self.__group_path,
             accept_existing=True
         )
         problem_dir = group_dir.spawn_dir(

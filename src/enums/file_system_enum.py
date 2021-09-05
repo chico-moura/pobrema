@@ -7,7 +7,6 @@ class FileSystemEnum:
     TAG_SYMBOL = '%'
     SRC = 'src'
     EXERCICIOS = 'exercicios'
-    SOLUTIONS = 'solutions'
     SCAFFOLD = 'scaffold'
     TEMPLATE_REPOSITORY = 'template_repository'
     TEMPLATES = 'templates'

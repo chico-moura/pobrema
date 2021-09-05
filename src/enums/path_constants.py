@@ -7,7 +7,6 @@ from src.enums.file_system_enum import FileSystemEnum as En
 class PathConstants:
     ROOT = f'{__file__.split(En.PROJECT)[0]}{En.PROJECT}'
     PROBLEM_GROUPS = f'{ROOT}/{En.EXERCICIOS}'
-    SOLUTION_GROUPS = f'{ROOT}/{En.SRC}/{En.SOLUTIONS}'
     TEMPLATES = f'{ROOT}/{En.SRC}/{En.SCAFFOLD}/{En.TEMPLATE_REPOSITORY}/{En.TEMPLATES}'
     LOCK_TEMPLATE = f'{TEMPLATES}/{En.LOCK_TEMPLATE}'
     PROBLEM_TEMPLATE = f'{TEMPLATES}/{En.PROBLEM_TEMPLATE}'
