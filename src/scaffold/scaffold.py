@@ -30,7 +30,7 @@ class Scaffold:
     def _validate_arguments(self) -> None:
         existing_files = [file for file in self.__path.unique_paths if file.exists]
         if existing_files:
-            existing_files_to_string = '\n'.join([path.to_string() for path in existing_files])
+            existing_files_to_string = '\n'.join([path.path() for path in existing_files])
             raise FileExistsError(f'Files or directories already exists:\n{existing_files_to_string}')
 
     def _initialize_dirs(self) -> None:
@@ -55,9 +55,9 @@ class Scaffold:
     @staticmethod
     def _create_dir(path: BasicPath) -> None:
         if not path.exists:
-            os.mkdir(path.to_string)
+            os.mkdir(path.path)
         else:
-            raise FileExistsError(path.to_string)
+            raise FileExistsError(path.path)
 
     def _create_package(self, path: BasicPath, init_template: BasicPath = None) -> None:
         try:
@@ -75,11 +75,11 @@ class Scaffold:
         content = ''
         if template:
             content = self._get_content(template)
-        with open(path.to_string, 'w') as file:
+        with open(path.path, 'w') as file:
             file.write(content)
 
     def _get_content(self, path: BasicPath) -> str:
-        with open(path.to_string, 'r') as file:
+        with open(path.path, 'r') as file:
             content = file.read()
         return self.__tags.replace(content)
 

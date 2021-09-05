@@ -15,14 +15,14 @@ class BasicPath(ABC):
 
     def validate_path(self) -> None:
         if self.exists:
-            raise PathAlreadyExistsError(self.to_string)
+            raise PathAlreadyExistsError(self.path)
 
     @property
     def exists(self) -> bool:
         return Path(self.__path).exists()
 
     @property
-    def to_string(self) -> str:
+    def path(self) -> str:
         return self.__path
 
     @abstractmethod
@@ -30,4 +30,4 @@ class BasicPath(ABC):
         pass
 
     def __str__(self) -> str:
-        return self.to_string
+        return self.path

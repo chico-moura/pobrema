@@ -5,5 +5,5 @@ class File(BasicPath):
     def _create(self, content: str = None) -> None:
         if not content:
             content = ''
-        with open(self.to_string, 'w') as file:
+        with open(self.path, 'w') as file:
             file.write(content)
