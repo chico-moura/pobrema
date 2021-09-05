@@ -10,9 +10,9 @@ class Tags:
     def __init__(self, problem: str) -> None:
         pascal = self._to_pascal(problem)
         self.__tags = {
-            'snake_name': problem,
-            'pascal_name': pascal,
-            'problem_name': f'{pascal}Problem'
+            'function': problem,
+            'gate_keeper': pascal,
+            'problem': f'{pascal}Problem'
         }
 
     def replace(self, text: str) -> str:

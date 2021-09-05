@@ -1,1 +1,1 @@
-from .key import %lock_name%
+from .key import %gate_keeper%

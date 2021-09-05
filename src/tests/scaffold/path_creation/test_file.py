@@ -2,6 +2,8 @@ import os
 from pathlib import Path
 from unittest import TestCase
 
+from mockito import when, unstub
+
 from src.enums import FileSystemEnum
 from src.scaffold.path_creation import File
 from src.errors import PathAlreadyExistsError
@@ -10,11 +12,18 @@ from src.errors import PathAlreadyExistsError
 class TestFile(TestCase):
     def setUp(self) -> None:
         self.fake_file_name = 'fake_file_name.py'
+        self.fake_file_name_no_extension = 'fake_file_name'
         self.fake_content = 'fake_content'
 
     def tearDown(self) -> None:
-        if Path(self.fake_file_name).exists():
-            os.remove(self.fake_file_name)
+        unstub()
+        self.remove(self.fake_file_name)
+        self.remove(self.fake_file_name_no_extension)
+
+    @staticmethod
+    def remove(file: str) -> None:
+        if Path(file).exists():
+            os.remove(file)
 
     def get_file_content(self) -> str:
         with open(self.fake_file_name, 'r') as file:
@@ -50,9 +59,9 @@ class TestFile(TestCase):
 
     def test_init_WHEN_path_has_no_extension_THEN_creates_file_with_extension(self) -> None:
         name_without_extension = 'fake_file_name'
-        name_with_extension = name_without_extension + FileSystemEnum.FILE_EXTENSION
+        name_with_extension = f'{name_without_extension}.{FileSystemEnum.FILE_EXTENSION}'
 
-        File(path=name_with_extension)
+        File(path=name_without_extension)
 
         path = Path(name_with_extension)
         self.assertTrue(path.is_file())
@@ -64,3 +73,31 @@ class TestFile(TestCase):
         actual_content = file.content
 
         self.assertEqual(expected_content, actual_content)
+
+    def test_assure_extension_WHEN_file_has_no_extension_THEN_assigns_extension(self) -> None:
+        file_name = 'foo'
+        expected_name = f'{file_name}.{FileSystemEnum.FILE_EXTENSION}'
+        when(File)._create(None)
+        file = File(file_name)
+
+        file._assure_extension()
+
+        self.assertEqual(expected_name, file.path)
+
+    def test_has_extension_WHEN_file_is_python_THEN_returns_true(self) -> None:
+        file_name = 'foo.py'
+        when(File)._create(None)
+        file = File(file_name)
+
+        has_extension = file.has_extension
+
+        self.assertTrue(has_extension)
+
+    def test_has_extension_WHEN_file_has_no_extension_THEN_returns_false(self) -> None:
+        file_name = 'foo'
+        when(File)._create(None)
+        file = File(file_name)
+
+        has_extension = file.has_extension
+
+        self.assertFalse(has_extension)

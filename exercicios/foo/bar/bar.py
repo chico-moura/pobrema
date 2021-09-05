@@ -4,7 +4,7 @@
 
 """
 
-from key import %gate_keeper%
+from key import Bar
 
 
 def foo():
@@ -13,4 +13,4 @@ def foo():
 
 
 # Não altere a linha abaixo
-%gate_keeper%(foo).solve()
+Bar(foo).solve()

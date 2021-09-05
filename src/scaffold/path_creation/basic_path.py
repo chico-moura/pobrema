@@ -9,12 +9,15 @@ class BasicPath(ABC):
     __path: str
 
     def __init__(self, path: str, content: str = None, accept_existing: bool = False) -> None:
-        self.__path = path
+        self.set_path(path)
         if not accept_existing:
             self.validate_path()
 
         if not self.exists:
             self._create(content)
+
+    def set_path(self, path: str) -> None:
+        self.__path = path
 
     def validate_path(self) -> None:
         if self.exists:

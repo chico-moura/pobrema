@@ -1,9 +1,9 @@
 class FileSystemEnum:
     PROJECT = 'pobrema'
-    FILE_EXTENSION = '.py'
+    FILE_EXTENSION = 'py'
     KEY = 'key'
     LOCK = 'lock'
-    INIT_FILE = f'__init__{FILE_EXTENSION}'
+    INIT_FILE = f'__init__.{FILE_EXTENSION}'
     TAG_SYMBOL = '%'
     SRC = 'src'
     EXERCICIOS = 'exercicios'
