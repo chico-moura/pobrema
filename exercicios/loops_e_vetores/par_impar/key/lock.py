@@ -2,7 +2,6 @@ from random import randrange
 from typing import Callable
 
 from src.problem import Problem, GateKeeper
-from src.encryption import FileNotFound
 
 
 class ParImpar(GateKeeper):
@@ -29,7 +28,7 @@ class ParImpar(GateKeeper):
             from .key import par, impar
             self.__solver_par = par
             self.__solver_impar = impar
-        except FileNotFound:
+        except FileNotFoundError:
             pass
 
 

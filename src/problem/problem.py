@@ -19,7 +19,7 @@ class Problem(ABC):
         self.__callback_pair = CallbackPair(user=user_callback, solver=solver_callback)
 
     @abstractmethod
-    def create_input(self) -> ANY:
+    def create_input(self):
         pass
 
     def solve(self) -> None:
@@ -32,8 +32,8 @@ class Problem(ABC):
 
     def _solve_scenario(self) -> bool:
         self.__input = self.create_input()
-        self.__expected = self.__callback_pair.solver(self.__input)
-        self.__actual = self.__callback_pair.user(self.__input)
+        self.__expected = self._execute_callback(self.__callback_pair.solver, self.__input)
+        self.__actual = self._execute_callback(self.__callback_pair.user, self.__input)
         result = self.__expected == self.__actual
 
         if result:
@@ -43,10 +43,19 @@ class Problem(ABC):
         return result
 
     def print_error(self) -> None:
-        self.print(f'{self.__name}\n  entrada: {self.__input}\nresultado: {self.__actual}\n esperado: {self.__expected}\n')
+        self.print(f''
+                   f'{self.__name}\n  entrada: {self.__input}\nresultado: {self.__actual}\n esperado: {self.__expected}\n')
 
     def print_score(self) -> None:
         self.print(f'{self.__name}: {self.__score}')
+
+    @staticmethod
+    def _execute_callback(callback: Callable, args: ANY) -> ANY:
+        if type(args) is tuple:
+            result = callback(*args)
+        else:
+            result = callback(args)
+        return result
 
     @staticmethod
     def print(text: str) -> None:

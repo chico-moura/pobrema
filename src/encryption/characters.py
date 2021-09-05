@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Key:
+class EncryptionKey:
     ordered = 'abcdefghijklmnopqrstuvxwyzABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789,.<>:;\\/\'' \
               '?|"~^]}[-_=+àáâãèéêêíìĩîóòõôúùũûÁÀÃÂÉÈẼÊÍÌĨÎÓÒÕÔÚÙŨÛ!@#$%*() ¹²³£¢¬{[]§ªº°\n'
     scrambled = '7@A_Û(Înũdi[Ì{Â2vjâ\nìàúPÒ^LN.IG=T²3qhoe6< $Yafò*áêm\\À+]Ùí;1pZÈHº£zXW9Ũ?' \
@@ -11,5 +11,5 @@ class Key:
 
 @dataclass
 class Characters:
-    ordered = list(Key.ordered)
-    scrambled = list(Key.scrambled)
+    ordered = list(EncryptionKey.ordered)
+    scrambled = list(EncryptionKey.scrambled)

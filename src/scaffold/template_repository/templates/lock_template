@@ -1,18 +1,25 @@
 from typing import Callable
 
 from src.problem import Problem, GateKeeper
-from src.encryption import FileNotFound
 
 
-class %lock_name%(GateKeeper):
+class %problem%(Problem):
+    __min = -99
+    __max = 99
+
+    def create_input(self):
+        pass
+
+
+class %gate_keeper%(GateKeeper):
     __solver: Callable
 
-    def __init__(self, %problem_name%: Callable) -> None:
+    def __init__(self, *callbacks: Callable) -> None:
         super().__init__()
         self.add_problems(
-            Problem(
-                name='%problem_name%',
-                user_callback=%problem_name%,
+            %problem%(
+                name='%function%',
+                user_callback=callbacks[0],
                 solver_callback=self.__solver
             )
         )
@@ -21,5 +28,5 @@ class %lock_name%(GateKeeper):
         try:
             from .key import solver
             self.__solver = solver
-        except FileNotFound:
+        except FileNotFoundError:
             pass
