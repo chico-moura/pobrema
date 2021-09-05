@@ -18,8 +18,10 @@ class TestScaffold(TestCase):
     def tearDown(self) -> None:
         if Path(self.group_path).exists():
             rmtree(self.group_path)
-            
+
     def test_scaffold_WHEN_nothing_exists_THEN_creates_structure(self) -> None:
         self.scaffold.create()
 
         self.assertTrue(Path(self.problem_path).is_file())
+
+    def test_scaffold_WHEN

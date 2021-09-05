@@ -4,6 +4,7 @@ from pathlib import Path
 from src.scaffold.path_creation import Dir
 from src.enums import FileSystemEnum, PathConstants
 from src.scaffold.template_repository.template_repository import TemplateRepo
+from src.errors.path_errors import PathAlreadyExistsError
 
 
 class Scaffold:
@@ -25,12 +26,12 @@ class Scaffold:
             self._validate_arguments()
             self._create_structure()
 
-        except FileExistsError or AttributeError as e:
+        except PathAlreadyExistsError or AttributeError as e:
             print(e)
 
     def _validate_arguments(self) -> None:
         if Path(self.__problem_path).exists():
-            raise FileExistsError(f'Files or directories already exists:\n{self.__problem_path}')
+            raise PathAlreadyExistsError(self.__problem_path)
 
     def _create_structure(self) -> None:
         group_dir = Dir(
