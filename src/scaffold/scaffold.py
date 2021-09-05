@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-from src.scaffold.path_repository.models import Dir
+from src.scaffold.path_creation import Dir
 from src.enums import FileSystemEnum, PathConstants
 from src.scaffold.template_repository.template_repository import TemplateRepo
 

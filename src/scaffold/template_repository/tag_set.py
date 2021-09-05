@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from src.enums.file_system_enum import FileSystemEnum
+from src.enums import FileSystemEnum
 
 
 @dataclass

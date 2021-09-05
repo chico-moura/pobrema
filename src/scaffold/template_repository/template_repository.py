@@ -1,4 +1,4 @@
-from src.scaffold.path_repository import File
+from src.scaffold.path_creation import File
 from src.scaffold.template_repository.tag_set import Tags
 from src.enums import PathConstants
 
