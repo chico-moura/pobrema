@@ -10,7 +10,7 @@ class Scrambler:
 
     def __init__(self, file: str) -> None:
         self.__file = file
-        if not Path(file).is_file():
+        if not Path(file).exists():
             raise FileNotFound(file)
 
     def encrypt(self) -> None:
