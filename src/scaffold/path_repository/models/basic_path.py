@@ -8,10 +8,11 @@ from src.errors import PathAlreadyExistsError
 class BasicPath(ABC):
     __path: str
 
-    def __init__(self, path: str, content: str = None) -> None:
+    def __init__(self, path: str, content: str = None, accept_existing: bool = False) -> None:
         self.__path = path
-        self.validate_path()
-        self._create(content)
+        if not accept_existing:
+            self.validate_path()
+            self._create(content)
 
     def validate_path(self) -> None:
         if self.exists:

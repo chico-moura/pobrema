@@ -12,8 +12,8 @@ class Dir(BasicPath):
         if content is not None:
             self._spawn_init_file(content)
 
-    def __init__(self, path: str, init_content: str = None) -> None:
-        super().__init__(path=path, content=init_content)
+    def __init__(self, path: str, init_content: str = None, accept_existing: bool = False) -> None:
+        super().__init__(path=path, content=init_content, accept_existing=accept_existing)
 
     def _spawn_init_file(self, init_content: str = ''):
         init_file_path = f'{self.path}/{FileSystemEnum.INIT_FILE}'
