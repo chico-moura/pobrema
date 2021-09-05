@@ -15,7 +15,7 @@ class Problem(ABC):
 
     def __init__(self, name: str, user_callback: Callable, solver_callback: Callable) -> None:
         self.__name = name
-        self.__score = Score(self.__tries)
+        self.__score = Score(max=self.__tries)
         self.__callback_pair = CallbackPair(user=user_callback, solver=solver_callback)
 
     @abstractmethod
