@@ -7,3 +7,8 @@ class File(BasicPath):
             content = ''
         with open(self.path, 'w') as file:
             file.write(content)
+
+    @property
+    def content(self) -> str:
+        with open(self.path, 'r') as file:
+            return file.read()

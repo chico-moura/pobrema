@@ -9,6 +9,7 @@ from src.errors import PathAlreadyExistsError
 class TestFile(TestCase):
     def setUp(self) -> None:
         self.fake_file_name = 'fake_file_name'
+        self.fake_content = 'fake_content'
 
     def tearDown(self) -> None:
         if Path(self.fake_file_name).exists():
@@ -39,9 +40,17 @@ class TestFile(TestCase):
         self.assertEqual(expected_content, actual_content)
 
     def test_init_WHEN_content_is_given_THEN_writes_content_to_file_created(self) -> None:
-        expected_content = 'expected_content'
+        expected_content = self.fake_content
 
         File(path=self.fake_file_name, content=expected_content)
 
         actual_content = self.get_file_content()
+        self.assertEqual(expected_content, actual_content)
+
+    def test_content_WHEN_called_THEN_returns_file_content(self) -> None:
+        expected_content = self.fake_content
+        file = File(path=self.fake_file_name, content=expected_content)
+
+        actual_content = file.content
+
         self.assertEqual(expected_content, actual_content)
