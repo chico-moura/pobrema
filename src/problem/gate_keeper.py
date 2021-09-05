@@ -2,7 +2,7 @@ import traceback
 from abc import abstractmethod
 from pathlib import Path
 
-from src.encryption import Scrambler, FileHasExtension, FileNotFound
+from src.encryption import Scrambler, FileHasExtensionError
 from src.problem.problem import Problem
 
 
@@ -36,7 +36,7 @@ class GateKeeper:
         if not Path(key_file).is_file():
             key_file += '.py'
         if not Path(key_file).is_file():
-            raise FileNotFound
+            raise FileNotFoundError
         return key_file
 
     @staticmethod
@@ -53,7 +53,7 @@ class GateKeeper:
     def _unlock(self) -> None:
         try:
             self.__key.decrypt()
-        except FileHasExtension:
+        except FileHasExtensionError:
             pass
 
     def _retrieve_imports(self) -> None:

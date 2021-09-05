@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from src.encryption.errors import FileIsNotPython, FileHasExtension, FileNotFound, TargetFileAlreadyExists
+from src.encryption.errors import FileWithoutExtensionError, FileHasExtensionError, TargetFileAlreadyExistsError
 from src.encryption.char_swapper import CharSwapper
 from src.enums import FileSystemEnum as En
 
@@ -13,7 +13,7 @@ class Scrambler:
     def __init__(self, file: str) -> None:
         self.__file = file
         if not Path(file).exists():
-            raise FileNotFound(file)
+            raise FileNotFoundError(file)
 
     def encrypt(self) -> None:
         new_name = self.__get_encrypted_file_name()
@@ -65,19 +65,19 @@ class Scrambler:
 
     def __file_has_extension(self) -> bool:
         extension = self.__file.split('.')[-1]
-        has_extension = extension == En.FILE_EXTENSION
-        if not has_extension:
-            raise Fi(self.__file)
-        return has_extension
+        extension_unrecognized = extension != En.FILE_EXTENSION
+        if extension_unrecognized:
+            raise FileWithoutExtensionError(self.__file)
+        return not extension_unrecognized
 
     def __file_has_no_extension(self) -> bool:
         file_has_no_extension = self.is_encrypted
         if not file_has_no_extension:
-            raise FileHasExtension(self.__file)
+            raise FileHasExtensionError(self.__file)
         return file_has_no_extension
 
     def __target_file_already_exists(self, target_file: str) -> bool:
         target_file_already_exists = Path(target_file).is_file()
         if target_file_already_exists:
-            raise TargetFileAlreadyExists(self.__file, target_file)
+            raise TargetFileAlreadyExistsError(self.__file, target_file)
         return target_file_already_exists

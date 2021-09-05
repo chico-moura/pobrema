@@ -1,4 +1,4 @@
-from src.errors.base_exception import BasicException
+from src.errors.basic_exception import BasicException
 
 
 class PathAlreadyExistsError(BasicException):

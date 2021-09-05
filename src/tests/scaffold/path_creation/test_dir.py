@@ -4,7 +4,7 @@ from shutil import rmtree
 from unittest import TestCase
 
 from src.scaffold.path_creation import Dir
-from src.errors import PathAlreadyExistsError
+from src.scaffold.errors import PathAlreadyExistsError
 from src.enums import FileSystemEnum
 
 

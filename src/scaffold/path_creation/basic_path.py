@@ -2,7 +2,7 @@ from __future__ import annotations
 from pathlib import Path
 from abc import ABC, abstractmethod
 
-from src.errors import PathAlreadyExistsError
+from src.scaffold.errors import PathAlreadyExistsError
 
 
 class BasicPath(ABC):

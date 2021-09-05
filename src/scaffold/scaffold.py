@@ -4,7 +4,7 @@ from pathlib import Path
 from src.scaffold.path_creation import Dir
 from src.enums import FileSystemEnum, PathConstants
 from src.scaffold.template_repository.template_repository import TemplateRepo
-from src.errors.path_errors import PathAlreadyExistsError
+from src.scaffold.errors import PathAlreadyExistsError
 
 
 class Scaffold:

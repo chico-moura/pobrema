@@ -3,7 +3,7 @@ from pathlib import Path
 from shutil import rmtree
 from unittest import TestCase
 
-from src.errors import PathAlreadyExistsError
+from src.scaffold.errors import PathAlreadyExistsError
 from src.scaffold import Scaffold
 from src.enums import FileSystemEnum as En
 from src.enums import PathConstants

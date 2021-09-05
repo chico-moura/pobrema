@@ -6,7 +6,7 @@ from mockito import when, unstub
 
 from src.enums import FileSystemEnum
 from src.scaffold.path_creation import File
-from src.errors import PathAlreadyExistsError
+from src.scaffold.errors import PathAlreadyExistsError
 
 
 class TestFile(TestCase):

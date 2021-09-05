@@ -1,2 +1,2 @@
 from src.encryption.scrambler import Scrambler
-from src.encryption.errors import FileHasExtension, FileNotFound
+from src.encryption.errors import FileHasExtensionError

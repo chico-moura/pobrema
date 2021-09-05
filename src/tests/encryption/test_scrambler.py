@@ -1,7 +1,7 @@
 import pathlib
 from unittest import TestCase
 from src.encryption.scrambler import Scrambler
-from src.encryption.errors import FileHasExtension, FileIsNotPython, FileNotFound, TargetFileAlreadyExists
+from src.encryption.errors import FileHasExtensionError, FileWithoutExtensionError, TargetFileAlreadyExistsError
 from src.tests.encryption.factories.file_factory import FileFactory
 
 
@@ -24,7 +24,7 @@ class TestScrambler(TestCase):
             return f.read()
 
     def test_init_WHEN_file_doesnt_exists_THEN_raises_file_not_found_error(self) -> None:
-        self.assertRaises(FileNotFound, lambda: Scrambler(self.python_file))
+        self.assertRaises(FileNotFoundError, lambda: Scrambler(self.python_file))
 
     def test_encrypt_WHEN_called_with_python_file_THEN_creates_file_without_extension(self) -> None:
         FileFactory.create_python_file(self.python_file)
@@ -42,18 +42,18 @@ class TestScrambler(TestCase):
 
         self.assertFalse(self.python_file_path.is_file())
 
-    def test_encrypt_WHEN_called_with_non_python_file_THEN_raises_file_is_not_python_error(self) -> None:
+    def test_encrypt_WHEN_called_with_non_python_file_THEN_raises_file_without_extension_error(self) -> None:
         FileFactory.create_file_without_extension(self.encrypted_file)
         scrambler = Scrambler(self.encrypted_file)
 
-        self.assertRaises(FileIsNotPython, lambda: scrambler.encrypt())
+        self.assertRaises(FileWithoutExtensionError, lambda: scrambler.encrypt())
 
     def test_encrypt_WHEN_target_file_name_is_taken_THEN_raises_target_file_already_exists(self) -> None:
         FileFactory.create_python_file(self.python_file)
         FileFactory.create_file_without_extension(self.encrypted_file)
         scrambler = Scrambler(self.python_file)
 
-        self.assertRaises(TargetFileAlreadyExists, lambda: scrambler.encrypt())
+        self.assertRaises(TargetFileAlreadyExistsError, lambda: scrambler.encrypt())
 
     def test_decrypt_WHEN_called_with_file_without_extension_THEN_creates_decrypted_python_file(self) -> None:
         FileFactory.create_file_without_extension(self.encrypted_file)
@@ -75,14 +75,14 @@ class TestScrambler(TestCase):
         FileFactory.create_python_file(self.python_file)
         scrambler = Scrambler(self.python_file)
 
-        self.assertRaises(FileHasExtension, lambda: scrambler.decrypt())
+        self.assertRaises(FileHasExtensionError, lambda: scrambler.decrypt())
 
     def test_decrypt_WHEN_target_file_name_is_taken_THEN_raises_target_file_already_exists(self) -> None:
         FileFactory.create_python_file(self.python_file)
         FileFactory.create_file_without_extension(self.encrypted_file)
         scrambler = Scrambler(self.encrypted_file)
 
-        self.assertRaises(TargetFileAlreadyExists, lambda: scrambler.decrypt())
+        self.assertRaises(TargetFileAlreadyExistsError, lambda: scrambler.decrypt())
 
     def test_decrypt_WHEN_called_with_encrypted_file_THEN_preserve_file_content(self) -> None:
         FileFactory.create_python_file(self.python_file)

@@ -27,7 +27,7 @@ class TestProblem(TestCase):
 
         self.assertTrue(problem.complete)
 
-    def teste_solve_WHEN_results_do_not_match_THEN_returns_false(self) -> None:
+    def test_solve_WHEN_results_do_not_match_THEN_returns_false(self) -> None:
         problem = Example(lambda x: x + 1, lambda y: y + 2)
 
         problem.solve()
