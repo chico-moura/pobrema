@@ -2,7 +2,6 @@ from random import randrange
 from typing import Callable
 
 from src.problem import Problem, GateKeeper
-from src.encryption import FileNotFound
 
 
 class VetoresOrdenadosProblem(Problem):
@@ -38,5 +37,5 @@ class VetoresOrdenados(GateKeeper):
             from .key import criar_vetor_crescente, criar_vetor_decrescente
             self.__criar_vetor_crescente = criar_vetor_crescente
             self.__criar_vetor_decrescente = criar_vetor_decrescente
-        except FileNotFound:
+        except FileNotFoundError:
             pass

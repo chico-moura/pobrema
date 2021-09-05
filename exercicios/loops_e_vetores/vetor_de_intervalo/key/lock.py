@@ -2,7 +2,6 @@ from random import randrange
 from typing import Callable
 
 from src.problem import Problem, GateKeeper
-from src.encryption import FileNotFound
 
 
 class VetorDeIntervaloProblem(Problem):
@@ -34,5 +33,5 @@ class VetorDeIntervalo(GateKeeper):
         try:
             from .key import criar_vetor_a_partir_de_intervalo
             self.__solver = criar_vetor_a_partir_de_intervalo
-        except FileNotFound:
+        except FileNotFoundError:
             pass

@@ -1,7 +1,6 @@
 from typing import Callable
 
 from src.problem import Problem, GateKeeper
-from src.encryption import FileNotFound
 
 
 class %problem%(Problem):
@@ -29,5 +28,5 @@ class %gate_keeper%(GateKeeper):
         try:
             from .key import solver
             self.__solver = solver
-        except FileNotFound:
+        except FileNotFoundError:
             pass
