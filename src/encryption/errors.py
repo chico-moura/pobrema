@@ -1,13 +1,15 @@
-class FileIsNotPython(Exception):
+from src.errors.base_exception import BasicException
+from src.enums import FileSystemEnum as En
+
+
+class FileWithoutExtensionError(BasicException):
     def __init__(self, file: str) -> None:
-        self.message = f'Could not encrypt: "{file}" is not a Python file (missing .py extension)'
-        super().__init__(self.message)
+        self.message = f'Could not encrypt "{file}": was expecting a file with .{En.FILE_EXTENSION} extension'
 
 
-class FileHasExtension(Exception):
+class FileHasExtension(BasicException):
     def __init__(self, file: str) -> None:
         self.message = f'Could not decrypt: "{file}" has extension (can only decrypt files without extension)'
-        super().__init__(self.message)
 
 
 class FileNotFound(Exception):
